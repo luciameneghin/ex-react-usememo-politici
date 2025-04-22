@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import PoliticiansCard from './components/PoliticianCard';
+import PoliticianCard from './components/PoliticianCard';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,7 +41,11 @@ const App = () => {
         />
         <button onClick={fetchPoliticians} className='btn btn-primary mx-3'>Cerca</button>
       </div>
-      <PoliticiansCard politicians={politiciansData} />
+      <div className='row'>
+        {politiciansData.map(politician => (
+          <PoliticianCard key={politician.id} politician={politician} />
+        ))}
+      </div>
     </div>
   );
 };
