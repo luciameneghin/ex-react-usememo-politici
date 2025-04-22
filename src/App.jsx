@@ -7,6 +7,7 @@ const MemoPoliticianCard = React.memo(PoliticianCard)
 const App = () => {
   const [politicians, setPoliticians] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPosition, setSelectedPosition] = useState('');
 
 
   useEffect(() => {
@@ -20,10 +21,20 @@ const App = () => {
     return politicians.filter(politician => {
       const findName = politician.name.toLowerCase().includes(searchTerm.toLowerCase());
       const findBiography = politician.biography.toLowerCase().includes(searchTerm.toLowerCase());
-      return findName || findBiography;
+      const validPosition = selectedPosition === '' || politician.position === selectedPosition;
+      return (findName || findBiography) && validPosition;
     }
     );
-  }, [politicians, searchTerm]);
+  }, [politicians, searchTerm, selectedPosition]);
+
+  const positions = useMemo(() => {
+    return politicians.reduce((acc, politician) => {
+      if (!acc.includes(politician.position)) {
+        return [...acc, politician.position];
+      }
+      return acc;
+    }, []);
+  }, [politicians]);
 
   return (
     <div className='container mx-auto my-5'>
@@ -36,6 +47,15 @@ const App = () => {
           onChange={e => setSearchTerm(e.target.value)}
           className='form-control w-50'
         />
+        <select
+          value={selectedPosition}
+          onChange={e => setSelectedPosition(e.target.value)}
+        >
+          <option value="">Filtra per Posizizione politica</option>
+          {positions.map((position, index) => (
+            <option key={index} value={position}>{position}</option>
+          ))}
+        </select>
         {/* <button onClick={fetchPoliticians} className='btn btn-primary mx-3'>Cerca</button> */}
       </div>
       <div className='row'>
