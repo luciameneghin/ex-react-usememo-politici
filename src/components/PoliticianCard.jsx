@@ -1,7 +1,7 @@
 import React from "react";
 
-const PoliticianCard = React.memo(({ politician }) => {
-  console.log(`Render card: ${politician.name}`);
+const PoliticianCard = ({ politician }) => {
+  console.log('Card');
 
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
@@ -15,10 +15,7 @@ const PoliticianCard = React.memo(({ politician }) => {
       </div>
     </div>
   );
-});
+};
+
 
 export default PoliticianCard;
-
-// if (!politicians || politicians.length === 0) {
-//   return <p className='text-center text-danger'>Nessun Politico trovato...</p>;
-// }
